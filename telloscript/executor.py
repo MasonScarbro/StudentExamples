@@ -1,8 +1,7 @@
-from easytello import tello
+
 from tokenizer import TokenType
-def execute_tokens(tokens, tello):
-    my_drone = tello.Tello()
-    my_drone.takeoff()
+def execute_tokens(tokens, my_drone):
+    
     i = 0
 
 
@@ -11,7 +10,7 @@ def execute_tokens(tokens, tello):
 
         if token.type == TokenType.MOVE:
             value = int(tokens[i + 1].lexeme)
-            tello.forward(value)
+            my_drone.forward(value)
             i += 2
 
         elif token.type == TokenType.TURN:
@@ -19,15 +18,15 @@ def execute_tokens(tokens, tello):
             value = int(tokens[i + 2].lexeme)
 
             if direction.upper() == "LEFT":
-                tello.ccw(value)
+                my_drone.ccw(value)
             else:
-                tello.cw(value)
+                my_drone.cw(value)
 
             i += 3
 
         elif token.type == TokenType.FLIP:
             direction = tokens[i + 1].lexeme.lower()
-            tello.flip(direction)
+            my_drone.flip(direction)
             i += 2
 
         elif token.type == TokenType.REPEAT:
@@ -52,7 +51,7 @@ def execute_tokens(tokens, tello):
             block = tokens[block_start:block_end]
 
             for _ in range(count):
-                execute_tokens(block, tello)
+                execute_tokens(block, my_drone)
 
         else:
             i += 1
